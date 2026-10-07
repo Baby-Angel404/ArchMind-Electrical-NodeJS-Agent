@@ -1,3 +1,22 @@
+---
+language:
+- en
+- id
+license: apache-2.0
+tags:
+- electrical-engineering
+- embedded-systems
+- iot
+- mqtt
+- nodejs
+- typescript
+- nestjs
+- time-series
+- agentic-ai
+- system-architecture
+pretty_name: "ArchMind: Cyber-Physical Electrical & IoT Agent"
+---
+
 # ArchMind-Electrical-NodeJS-Agent
 
 <p align="center">
