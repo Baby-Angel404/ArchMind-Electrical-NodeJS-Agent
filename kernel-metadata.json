@@ -1,0 +1,14 @@
+{
+  "id": "simonmarc/archmind-electrical-monitoring-node",
+  "title": "ArchMind Electrical Monitoring Node",
+  "code_file": "KAGGLE_NOTEBOOK.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": false,
+  "enable_tpu": false,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}
