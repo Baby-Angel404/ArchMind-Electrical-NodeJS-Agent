@@ -1,0 +1,79 @@
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:2.0
+    container_name: archmind-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "8883:8883"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - archmind-net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: archmind-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-archmind_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-archmind_secure_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-archmind_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - archmind-net
+
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: archmind-influxdb
+    restart: unless-stopped
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUXDB_USER:-admin}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUXDB_PASS:-adminpassword123}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_ORG:-archmind_org}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUXDB_BUCKET:-archmind_telemetry}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_TOKEN:-dev_super_secret_token}
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdata:/var/lib/influxdb2
+    networks:
+      - archmind-net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: archmind-backend
+    restart: unless-stopped
+    depends_on:
+      - mqtt-broker
+      - postgres
+      - influxdb
+    environment:
+      PORT: 4000
+      MQTT_BROKER_URL: mqtt://mqtt-broker:1883
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-archmind_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-archmind_secure_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-archmind_db}
+      INFLUXDB_URL: http://influxdb:8086
+      INFLUXDB_TOKEN: ${INFLUXDB_TOKEN:-dev_super_secret_token}
+      INFLUXDB_ORG: ${INFLUXDB_ORG:-archmind_org}
+      INFLUXDB_BUCKET: ${INFLUXDB_BUCKET:-archmind_telemetry}
+    ports:
+      - "4000:4000"
+    networks:
+      - archmind-net
+
+networks:
+  archmind-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  influxdata:
