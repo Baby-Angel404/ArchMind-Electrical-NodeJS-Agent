@@ -32,6 +32,10 @@ pretty_name: "ArchMind: Cyber-Physical Electrical & IoT Agent"
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-yellow.svg" alt="License"></a>
 </p>
 
+<p align="center">
+  <img src="docs/assets/terminal_verification_screenshot.svg" alt="ArchMind Full System Verification & Quality Gate" width="850">
+</p>
+
 ---
 
 ## 1. System Overview

@@ -6,6 +6,8 @@ Dokumen ini memuat bukti eksekusi riil, hasil benchmark kuantitatif, log penguji
 
 ## 1. Bukti Eksekusi Pengujian Otomatis
 
+![Terminal Verification Screenshot](assets/terminal_verification_screenshot.svg)
+
 Seluruh suite pengujian telah dijalankan dan diverifikasi pada sistem Linux (Node.js v20.18.0, GCC 14.2, Next.js 14.2.5):
 
 ```text

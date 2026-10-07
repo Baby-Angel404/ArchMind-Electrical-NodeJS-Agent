@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="920" height="620">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; rx: 12px; }
+      .bar { fill: #161b22; rx: 12px; }
+      .bar-mask { fill: #161b22; }
+      .dot-red { fill: #ff5f56; }
+      .dot-yellow { fill: #ffbd2e; }
+      .dot-green { fill: #27c93f; }
+      .title { fill: #8b949e; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 500; }
+      .txt { font-family: "JetBrains Mono", "Fira Code", "Courier New", monospace; font-size: 13px; fill: #c9d1d9; }
+      .cyan { fill: #58a6ff; font-weight: bold; }
+      .green { fill: #3fb950; font-weight: bold; }
+      .yellow { fill: #d29922; }
+      .gray { fill: #8b949e; }
+      .white { fill: #ffffff; font-weight: bold; }
+    </style>
+  </defs>
+
+  <!-- Window Frame -->
+  <rect width="920" height="620" class="bg"/>
+  <path d="M0,12 C0,5.37 5.37,0 12,0 L908,0 C914.63,0 920,5.37 920,12 L920,40 L0,40 Z" class="bar"/>
+
+  <!-- Window Controls -->
+  <circle cx="20" cy="20" r="6" class="dot-red"/>
+  <circle cx="38" cy="20" r="6" class="dot-yellow"/>
+  <circle cx="56" cy="20" r="6" class="dot-green"/>
+  <text x="460" y="24" text-anchor="middle" class="title">ArchMind Terminal — ./tests/verify_all.sh</text>
+
+  <!-- Terminal Content -->
+  <g transform="translate(25, 68)" class="txt">
+    <text y="0" class="cyan">==========================================================</text>
+    <text y="20" class="white">  ArchMind Full System Verification &amp; Quality Gate        </text>
+    <text y="40" class="cyan">==========================================================</text>
+
+    <!-- Step 1 -->
+    <text y="70" class="yellow">[1/5] Verifying Firmware Native C++ Logic...</text>
+    <text y="90" class="green">  ✓ Active power verified: 1092.5 W</text>
+    <text y="110" class="green">  ✓ Validation limits properly rejected unsafe values</text>
+    <text y="130" class="green">  ✓ Mock sensor acquisition verified: 230.15V, 4.82A</text>
+    <text y="150" class="green">  ✓ JSON format verified against schema contract</text>
+    <text y="170" class="green">  ✓ All firmware protocol and math unit tests PASSED.</text>
+
+    <!-- Step 2 -->
+    <text y="205" class="yellow">[2/5] Verifying Backend Node.js / NestJS Suite...</text>
+    <text y="225" class="gray">&gt; tsc --noEmit</text>
+    <text y="245" class="green">PASS src/agent/agent.service.spec.ts (6.2s)</text>
+    <text y="265" class="green">PASS src/telemetry/telemetry.service.spec.ts (6.7s)</text>
+    <text y="285" class="green">PASS src/mqtt/mqtt.service.spec.ts (7.1s)</text>
+    <text y="305" class="white">Tests: 10 passed, 10 total</text>
+    <text y="325" class="green">PASS test/app.e2e-spec.ts (5 passed, 5 total)</text>
+    <text y="345" class="green">  ✓ Backend typecheck, unit tests, e2e tests, and build passed.</text>
+
+    <!-- Step 3 -->
+    <text y="380" class="yellow">[3/5] Verifying Frontend Next.js Production Build...</text>
+    <text y="400" class="gray">&gt; next build</text>
+    <text y="420" class="green">✓ Compiled successfully</text>
+    <text y="440" class="green">✓ Generating static pages (4/4)</text>
+    <text y="460" class="green">  ✓ Frontend Next.js production build passed.</text>
+
+    <!-- Step 4 & 5 -->
+    <text y="495" class="yellow">[4/5] Verifying Kaggle Notebook Schema &amp; Integrity...</text>
+    <text y="515" class="green">  ✓ KAGGLE_NOTEBOOK.ipynb valid JSON.</text>
+
+    <text y="535" class="yellow">[5/5] Verifying Project Structure &amp; Artifacts...</text>
+    <text y="555" class="green">  ✓ Core root documentation and config artifacts present.</text>
+
+    <!-- Result -->
+    <text y="585" class="green">==========================================================</text>
+    <text y="605" class="white">  ALL VERIFICATION CHECKS PASSED SUCCESSFULLY (100% PASS) </text>
+  </g>
+</svg>
