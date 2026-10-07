@@ -26,11 +26,14 @@ describe('TelemetryService', () => {
 
     service = module.get<TelemetryService>(TelemetryService);
     databaseService = module.get<DatabaseService>(DatabaseService);
-    websocketGateway = module.get<TelemetryWebsocketGateway>(TelemetryWebsocketGateway);
+    websocketGateway = module.get<TelemetryWebsocketGateway>(
+      TelemetryWebsocketGateway,
+    );
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    expect(databaseService).toBeDefined();
   });
 
   it('should process telemetry and calculate active power when missing', async () => {

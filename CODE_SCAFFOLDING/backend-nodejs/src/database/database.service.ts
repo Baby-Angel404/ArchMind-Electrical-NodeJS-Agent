@@ -1,5 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { DeviceRecord, TelemetryMessage } from '../common/interfaces/telemetry.interface';
+import {
+  DeviceRecord,
+  TelemetryMessage,
+} from '../common/interfaces/telemetry.interface';
 import { CreateDeviceDto } from '../common/dto/device.dto';
 
 @Injectable()
@@ -9,7 +12,9 @@ export class DatabaseService implements OnModuleInit {
   private readonly telemetryStore: TelemetryMessage[] = [];
 
   onModuleInit() {
-    this.logger.log('DatabaseService initialized. Applying schema definitions...');
+    this.logger.log(
+      'DatabaseService initialized. Applying schema definitions...',
+    );
     this.seedDefaultDevices();
   }
 
@@ -47,11 +52,16 @@ export class DatabaseService implements OnModuleInit {
       registeredAt: new Date().toISOString(),
     };
     this.devices.set(newDevice.deviceId, newDevice);
-    this.logger.log(`Device registered: ${newDevice.deviceId} (${newDevice.name})`);
+    this.logger.log(
+      `Device registered: ${newDevice.deviceId} (${newDevice.name})`,
+    );
     return newDevice;
   }
 
-  async updateDeviceStatus(deviceId: string, status: 'online' | 'offline'): Promise<void> {
+  async updateDeviceStatus(
+    deviceId: string,
+    status: 'online' | 'offline',
+  ): Promise<void> {
     const existing = this.devices.get(deviceId);
     if (existing) {
       existing.status = status;
@@ -72,7 +82,10 @@ export class DatabaseService implements OnModuleInit {
     await this.updateDeviceStatus(telemetry.deviceId, 'online');
   }
 
-  async getRecentTelemetry(deviceId: string, limit = 50): Promise<TelemetryMessage[]> {
+  async getRecentTelemetry(
+    deviceId: string,
+    limit = 50,
+  ): Promise<TelemetryMessage[]> {
     return this.telemetryStore
       .filter((t) => t.deviceId === deviceId)
       .slice(-limit);

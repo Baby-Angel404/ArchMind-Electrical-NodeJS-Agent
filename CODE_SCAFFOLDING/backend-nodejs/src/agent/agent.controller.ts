@@ -7,7 +7,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AgentService } from './agent.service';
-import { AnalyzeArchitectureDto, AgentAnalysisResponse } from '../common/dto/agent.dto';
+import {
+  AnalyzeArchitectureDto,
+  AgentAnalysisResponse,
+} from '../common/dto/agent.dto';
 import { ApiKeyGuard } from '../common/guards/api-key.guard';
 
 @Controller('api/agent')

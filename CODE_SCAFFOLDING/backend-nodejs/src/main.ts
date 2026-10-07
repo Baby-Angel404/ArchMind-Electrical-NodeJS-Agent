@@ -11,9 +11,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Security Headers
-  app.use(helmet({
-    contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
-  }));
+  app.use(
+    helmet({
+      contentSecurityPolicy:
+        process.env.NODE_ENV === 'production' ? undefined : false,
+    }),
+  );
 
   // CORS Configuration
   const allowedOrigin = process.env.CORS_ORIGIN || '*';
@@ -39,7 +42,9 @@ async function bootstrap() {
   await app.listen(port);
   logger.log(`ArchMind Backend API active at: http://localhost:${port}`);
   logger.log(`Health endpoint: http://localhost:${port}/health`);
-  logger.log(`MQTT Ingest: configured for ${process.env.MQTT_BROKER_URL || 'mqtt://localhost:1883'}`);
+  logger.log(
+    `MQTT Ingest: configured for ${process.env.MQTT_BROKER_URL || 'mqtt://localhost:1883'}`,
+  );
 }
 
 bootstrap();

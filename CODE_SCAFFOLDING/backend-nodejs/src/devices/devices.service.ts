@@ -29,7 +29,10 @@ export class DevicesService {
     return created;
   }
 
-  async updateStatus(deviceId: string, status: 'online' | 'offline'): Promise<void> {
+  async updateStatus(
+    deviceId: string,
+    status: 'online' | 'offline',
+  ): Promise<void> {
     await this.databaseService.updateDeviceStatus(deviceId, status);
     this.websocketGateway.broadcastDeviceStatus(deviceId, status);
   }

@@ -1,4 +1,9 @@
-import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleInit,
+  OnModuleDestroy,
+} from '@nestjs/common';
 import * as mqtt from 'mqtt';
 import { TelemetryService } from '../telemetry/telemetry.service';
 import { DevicesService } from '../devices/devices.service';
@@ -27,8 +32,11 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
 
   private initializeMqtt() {
     const brokerUrl = process.env.MQTT_BROKER_URL || 'mqtt://localhost:1883';
-    const clientId = process.env.MQTT_CLIENT_ID || `archmind-backend-${Math.random().toString(16).substring(2, 10)}`;
-    const telemetryTopic = process.env.MQTT_TOPIC_TELEMETRY || 'devices/+/telemetry';
+    const clientId =
+      process.env.MQTT_CLIENT_ID ||
+      `archmind-backend-${Math.random().toString(16).substring(2, 10)}`;
+    const telemetryTopic =
+      process.env.MQTT_TOPIC_TELEMETRY || 'devices/+/telemetry';
     const statusTopic = 'devices/+/status';
 
     const options: mqtt.IClientOptions = {
@@ -44,27 +52,39 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
       options.password = process.env.MQTT_PASSWORD;
     }
 
-    this.logger.log(`Initializing MQTT connection to: ${brokerUrl} (client: ${clientId})`);
+    this.logger.log(
+      `Initializing MQTT connection to: ${brokerUrl} (client: ${clientId})`,
+    );
 
     try {
       this.client = mqtt.connect(brokerUrl, options);
 
       this.client.on('connect', () => {
         this.logger.log('MQTT client connected successfully to broker.');
-        this.client.subscribe([telemetryTopic, statusTopic], { qos: 1 }, (err) => {
-          if (err) {
-            this.logger.error(`Failed to subscribe to MQTT topics: ${err.message}`);
-          } else {
-            this.logger.log(`Subscribed to MQTT topics: ${telemetryTopic}, ${statusTopic}`);
-          }
-        });
+        this.client.subscribe(
+          [telemetryTopic, statusTopic],
+          { qos: 1 },
+          (err) => {
+            if (err) {
+              this.logger.error(
+                `Failed to subscribe to MQTT topics: ${err.message}`,
+              );
+            } else {
+              this.logger.log(
+                `Subscribed to MQTT topics: ${telemetryTopic}, ${statusTopic}`,
+              );
+            }
+          },
+        );
       });
 
       this.client.on('message', async (topic: string, message: Buffer) => {
         try {
           await this.handleIncomingMessage(topic, message.toString());
         } catch (err) {
-          this.logger.error(`Error processing MQTT message on ${topic}: ${err.message}`);
+          this.logger.error(
+            `Error processing MQTT message on ${topic}: ${err.message}`,
+          );
         }
       });
 
@@ -77,7 +97,9 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
         this.logger.log('Reconnecting to MQTT broker...');
       });
     } catch (err) {
-      this.logger.warn(`Could not establish immediate MQTT connection: ${err.message}`);
+      this.logger.warn(
+        `Could not establish immediate MQTT connection: ${err.message}`,
+      );
     }
   }
 
@@ -94,15 +116,26 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
       const dto = new IngestTelemetryDto();
       dto.deviceId = payload.deviceId;
       dto.timestamp = payload.timestamp || new Date().toISOString();
-      dto.voltage = typeof payload.voltage === 'number' ? payload.voltage : undefined;
-      dto.current = typeof payload.current === 'number' ? payload.current : undefined;
+      dto.voltage =
+        typeof payload.voltage === 'number' ? payload.voltage : undefined;
+      dto.current =
+        typeof payload.current === 'number' ? payload.current : undefined;
       dto.power = typeof payload.power === 'number' ? payload.power : undefined;
-      dto.temperature = typeof payload.temperature === 'number' ? payload.temperature : undefined;
-      dto.frequency = typeof payload.frequency === 'number' ? payload.frequency : undefined;
-      dto.powerFactor = typeof payload.powerFactor === 'number' ? payload.powerFactor : undefined;
+      dto.temperature =
+        typeof payload.temperature === 'number'
+          ? payload.temperature
+          : undefined;
+      dto.frequency =
+        typeof payload.frequency === 'number' ? payload.frequency : undefined;
+      dto.powerFactor =
+        typeof payload.powerFactor === 'number'
+          ? payload.powerFactor
+          : undefined;
 
       if (!dto.deviceId) {
-        this.logger.warn(`Discarding telemetry missing deviceId on topic: ${topic}`);
+        this.logger.warn(
+          `Discarding telemetry missing deviceId on topic: ${topic}`,
+        );
         return;
       }
 
@@ -123,7 +156,9 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
     }
     const topic = `devices/${deviceId}/commands`;
     this.client.publish(topic, JSON.stringify(command), { qos: 1 });
-    this.logger.log(`Published command to ${topic}: ${JSON.stringify(command)}`);
+    this.logger.log(
+      `Published command to ${topic}: ${JSON.stringify(command)}`,
+    );
     return true;
   }
 }

@@ -60,7 +60,9 @@ describe('MqttService', () => {
     const topic = 'devices/esp32-001/telemetry';
     const malformed = '{ invalid json payload :(';
 
-    await expect(service.handleIncomingMessage(topic, malformed)).resolves.not.toThrow();
+    await expect(
+      service.handleIncomingMessage(topic, malformed),
+    ).resolves.not.toThrow();
     expect(telemetryService.processTelemetry).not.toHaveBeenCalled();
   });
 
@@ -72,6 +74,9 @@ describe('MqttService', () => {
     });
 
     await service.handleIncomingMessage(topic, payload);
-    expect(devicesService.updateStatus).toHaveBeenCalledWith('esp32-001', 'offline');
+    expect(devicesService.updateStatus).toHaveBeenCalledWith(
+      'esp32-001',
+      'offline',
+    );
   });
 });
